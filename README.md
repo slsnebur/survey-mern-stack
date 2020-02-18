@@ -1,2 +1,2 @@
-# survey-form-rest
- REST survey API based on Express framework
+# survey-mern-stack
+Simple survey app based on MERN stack
