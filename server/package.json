@@ -4,7 +4,12 @@
   "description": "REST survey API based on Express",
   "main": "server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha --timeout 150000 --exit"
+    "test": "cross-env NODE_ENV=test mocha --timeout 150000 --exit",
+    "backend": "nodemon src",
+    "frontend": "npm run start --prefix ../client",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "prod": "",
+    "depinstall": "npm install && npm install ../client"
   },
   "author": "Karol Morawski",
   "license": "MIT",
