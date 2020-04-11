@@ -8,20 +8,27 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-
-
+import styled from 'styled-components';
+import {Zap} from '@styled-icons/octicons';
 
 // import routes
 import Login from './routes/Login';
 import Forms from './routes/Forms';
 import Start from './routes/Start';
 import Users from './routes/Users';
+import Register from './routes/Register';
 
 
-// import classes
+// route components
 const  LoginRoute = function() {
   return (
       <Login/>
+  );
+};
+
+const  RegisterRoute = function() {
+  return (
+      <Register/>
   );
 };
 
@@ -47,16 +54,17 @@ class App extends Component {
   render() {
     return(
       <BrowserRouter>
-        <Route path={"/"} component={StartRoute}></Route>
-        <Route path={"/login"} component={LoginRoute}></Route>
-        <Route path={"/users"} component={UsersRoute}></Route>
-        <Route path={"/forms"} component={FormsRoute}></Route>
+        <Route path={"/start"} component={StartRoute}/>
+        <Route path={"/login"} component={LoginRoute}/>
+        <Route path={"/users"} component={UsersRoute}/>
+        <Route path={"/forms"} component={FormsRoute}/>
+        <Route path={"/register"} component={RegisterRoute}/>
       </BrowserRouter>
     )
   }
 }
 
 ReactDOM.render(
-  <App />,
+  <App/>,
   document.getElementById('root')
 );

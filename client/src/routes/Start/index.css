@@ -2,6 +2,7 @@
     background: #fff;
     padding: 24px;
     min-height: 280px;
+    margin-top: 25px;
 }
 .logo {
     width: 120px;
@@ -10,9 +11,53 @@
     margin: 16px 24px 16px 0;
     float: left;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+    background: #001529;
+}
+
+.footer-left-col {
+    line-height: 80%;
+}
+
+.footer-right-col {
+    text-align: right;
+}
+
+.footer-right-col > a {
+    color: #fff;
+}
+
+.footer-right-col > a:hover {
+    color: #1890ff;
+}
+
+
+body {
+    background: #F0F2F5
+}
+
 [data-theme="dark"] .site-layout-content {
     background: #141414;
 }
 [data-theme="dark"] .logo {
     background: rgba(255,255,255,0.3);
+}
+
+.header-buttons {
+    text-align: right;
+}
+
+.sign-up-button {
+    margin-right: 1em;
+}
+
+.breadcrumb {
+    margin-left: 1em;
+    margin-top: 1em;
 }

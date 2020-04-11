@@ -135,6 +135,10 @@ const loginUser = async (req, res, next) => {
     const user = req.user;
     const token = sign(user);
 
+    res.cookie('jwt', token, {
+       httpOnly: true,
+        maxAge: new Date(Date.now() + 900000),
+    });
     return res.json({
         user: user.view(),
         token: token

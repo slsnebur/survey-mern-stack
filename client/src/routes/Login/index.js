@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import LoginBox from '../../components/login';
+import Start from '../../routes/Start';
 
-function Login(props) {
+function LoginRoute(props) {
     return(
-        <div>
-            Login
-        </div>
+        <Start content={LoginBox}/>
     )
 }
 
-export default Login;
+export default LoginRoute;

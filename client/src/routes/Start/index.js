@@ -1,34 +1,117 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useState} from 'react';
 import ReactDOM from 'react-dom';
-
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { Layout, Breadcrumb, Button, Drawer, Menu} from 'antd';
+import { Row, Col } from 'antd';
 import './index.css';
+import styled from 'styled-components'
+import {Github} from '@styled-icons/entypo-social'
+import {MenuOutline} from '@styled-icons/evaicons-outline'
+import {Link} from "react-router-dom";
+import {useCurrentWitdh} from '../../hooks/useCurrentWidth';
+
+const GithubIcon = styled(Github)`
+    width: 1.5em;
+    margin-right: 2px;
+`;
+
+const MenuIcon = styled(MenuOutline)`
+    width: 2em;
+    color: white;
+`;
+
+const HamburgerMenuButton = styled(Button)`
+    background: none;
+    border-color: none;
+    border: none;
+    &:activated {
+        border: none;
+        background: none;
+    }
+`;
+
 
 const { Header, Content, Footer } = Layout;
 
 function App(props) {
+    // whether menu is collapsed or not
+    const [isVisible, setIsVisible] = useState(false);
+    // width of window.screen
+    let width = useCurrentWitdh();
+
+    const showDrawer = () => {
+        setIsVisible(true);
+    };
+
+    const onClose = () => {
+      setIsVisible(false);
+    };
+
+    // handles header login/signup buttons (logged out) or navbars
+    const headerNavigation = () => {
+        if(width < 570) {
+            return(
+            <div>
+                <Col style={{'text-align': 'right'}}>
+                    <HamburgerMenuButton onClick={showDrawer}><MenuIcon/></HamburgerMenuButton>
+                </Col>
+
+                <Drawer
+                    title="Menu"
+                    placement="right"
+                    closable={false}
+                    onClose={onClose}
+                    visible={isVisible}
+                    mask={true}
+                >
+                    <p><Button block className={"sign-up-button"} href={'./register'} type={"primary"}><Link to={"/register"}>Sign up</Link></Button></p>
+                    <p><Button block type={"secondary"}><Link to={"/login"}>Sign in</Link></Button></p>
+                </Drawer>
+            </div>
+            )
+        }
+            return (
+                <Row>
+                    <Col span={24} className={"header-buttons"} style={{'text-align': 'right'}}>
+                        <Button className={"sign-up-button"} type={"primary"}><Link to={"/register"}>Sign up</Link></Button>
+                        <Button type={"secondary"}><Link to={"/login"}>Sign in</Link></Button>
+                    </Col>
+                </Row>
+            )
+    };
+
     return(
         <Layout className="layout">
             <Header>
                 <div className="logo" />
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-                    <Menu.Item key="/login">nav 1</Menu.Item>
-                    <Menu.Item key="2">nav 2</Menu.Item>
-                    <Menu.Item key="3">nav 3</Menu.Item>
-                </Menu>
+                {headerNavigation()}
             </Header>
-                <Content style={{ padding: '0 50px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                        <div className="site-layout-content">Content</div>
-                    </Breadcrumb>
+                <Breadcrumb className={'breadcrumb'}>
+                    <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item>Login</Breadcrumb.Item>
+                </Breadcrumb>
+                <Content className="content" style={{ padding: '0 50px' }}>
+                    <div className="site-layout-content">{<props.content/>}</div>
                 </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+            <Footer className="footer">
+                <Row>
+                    <Col
+                        className="footer-left-col"
+                        span={16}
+                    >
+                        <p>Karol Morawski 2050</p>
+                        <a href={"https://github.com/slsnebur"}>Live preview</a>
+                    </Col>
+                    <Col
+                        className="footer-right-col"
+                        span={8}
+                    >
+                        <a href={"https://github.com/slsnebur"}><GithubIcon/> Github</a>
+                    </Col>
+                </Row>
+            </Footer>
         </Layout>
     )
 }
+
 
 export default App;
