@@ -36,7 +36,8 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "universal-cookie": "^4.0.3"
   },
   "proxy": "http://localhost:3001/api"
 }

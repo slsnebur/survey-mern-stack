@@ -8,6 +8,8 @@ import {Github} from '@styled-icons/entypo-social'
 import {MenuOutline} from '@styled-icons/evaicons-outline'
 import {Link} from "react-router-dom";
 import {useCurrentWitdh} from '../../hooks/useCurrentWidth';
+import Cookies from 'universal-cookie';
+import axios from '../../axios';
 
 const GithubIcon = styled(Github)`
     width: 1.5em;
@@ -29,14 +31,32 @@ const HamburgerMenuButton = styled(Button)`
     }
 `;
 
-
 const { Header, Content, Footer } = Layout;
 
 function App(props) {
+
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [username, setUsername] = useState('USER_NAME');
     // whether menu is collapsed or not
     const [isVisible, setIsVisible] = useState(false);
     // width of window.screen
     let width = useCurrentWitdh();
+    const cookies = new Cookies();
+    // Check whether cookie with jwt is set
+    let jwt = "";
+    useEffect(() => {
+        axios.get('users/me', {
+            withCredentials: true,
+        })
+            .then((res) => {
+                // Cookie with valid jwt exists
+                setLoggedIn(true);
+                setUsername(res.data.user.username);
+            })
+            .catch((error) => {
+                // User not logged in
+            });
+    });
 
     const showDrawer = () => {
         setIsVisible(true);
@@ -48,6 +68,15 @@ function App(props) {
 
     // handles header login/signup buttons (logged out) or navbars
     const headerNavigation = () => {
+
+        if(isLoggedIn) {
+            return(
+                <div>
+                    <button style={{"color": "black"}}>{username}</button>
+                </div>
+            )
+        }
+
         if(width < 570) {
             return(
             <div>

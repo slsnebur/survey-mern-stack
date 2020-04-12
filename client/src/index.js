@@ -1,5 +1,5 @@
 // Router
-import React, { Component } from 'react';
+import React, {Component } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import {
@@ -51,6 +51,10 @@ const  StartRoute = function() {
 };
 
 class App extends Component {
+
+
+
+
   render() {
     return(
       <BrowserRouter>

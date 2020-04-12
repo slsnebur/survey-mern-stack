@@ -30,7 +30,9 @@ function LoginBox(props) {
 
     const onFinish = values => {
 
-        axios.post(axios.baseURL ,{}, {
+
+        axios.post('/users/login',{}, {
+            withCredentials: true,
             auth: {
                 username: values.email,
                 password: values.password
