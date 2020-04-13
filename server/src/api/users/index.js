@@ -14,7 +14,8 @@ const {
     destroyUser,
     destroyUserComments,
     loginUser,
-    showMe
+    showMe,
+    logout
 } = require('./controller');
 const router = Router();
 
@@ -23,9 +24,9 @@ router.get('/me', token, showMe);
 router.get('/:id', getUser);
 router.get('/:id/comments', getUserComments);
 
-
 router.post('/', validateCreateUser,  createUser);
 router.post('/login', validateLogin, password, loginUser);
+router.post('/logout', logout);
 
 router.put('/:id', token, groupAuthorize, updateUser);
 

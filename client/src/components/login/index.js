@@ -21,6 +21,7 @@ const tailLayout = {
 };
 
 function LoginBox(props) {
+    const [isLoggedIn, setLoggedIn] = useState(false);
     const currentWidth = useCurrentWitdh();
     const form = Form.useForm();
     const [errorMessage, setErrorMessage] = useState({
@@ -28,8 +29,20 @@ function LoginBox(props) {
        message: "ERROR_MSG",
     });
 
-    const onFinish = values => {
+    useEffect(() => {
+        axios.get('users/me', {
+            withCredentials: true,
+        })
+            .then((res) => {
+                // Cookie with valid jwt exists
+                setLoggedIn(true);
+            })
+            .catch((error) => {
+                // User not logged in
+            });
+    }, [isLoggedIn]);
 
+    const onFinish = values => {
 
         axios.post('/users/login',{}, {
             withCredentials: true,
@@ -40,8 +53,7 @@ function LoginBox(props) {
             }
         )
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+               window.location.reload(false);
             })
             .catch(error => {
                 setErrorMessage({
@@ -69,6 +81,12 @@ function LoginBox(props) {
                 <Form.Item {...tailLayout} justify={messageBoxStyle}>
                         <Alert message={errorMessage.message.message} type="error" />
                 </Form.Item>;
+    }
+
+    if(isLoggedIn) {
+        return(
+            <div>Already logged in</div>
+        )
     }
 
     return(

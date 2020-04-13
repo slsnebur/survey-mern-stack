@@ -1,11 +1,14 @@
 import React, { useEffect , useState} from 'react';
 import ReactDOM from 'react-dom';
-import { Layout, Breadcrumb, Button, Drawer, Menu} from 'antd';
+import { Layout, Breadcrumb, Button, Drawer, Menu, Dropdown, Skeleton} from 'antd';
 import { Row, Col } from 'antd';
 import './index.css';
-import styled from 'styled-components'
-import {Github} from '@styled-icons/entypo-social'
-import {MenuOutline} from '@styled-icons/evaicons-outline'
+import styled from 'styled-components';
+import {Github} from '@styled-icons/entypo-social';
+import {MenuOutline} from '@styled-icons/evaicons-outline';
+import {ArrowDropDown} from '@styled-icons/remix-line/';
+import {LogOut} from '@styled-icons/boxicons-regular/';
+import {User} from '@styled-icons/boxicons-regular/';
 import {Link} from "react-router-dom";
 import {useCurrentWitdh} from '../../hooks/useCurrentWidth';
 import Cookies from 'universal-cookie';
@@ -13,6 +16,16 @@ import axios from '../../axios';
 
 const GithubIcon = styled(Github)`
     width: 1.5em;
+    margin-right: 2px;
+`;
+
+const LogOutIcon = styled(LogOut)`
+    width: 1.2em;
+    margin-right: 2px;
+`;
+
+const ProfileIcon = styled(User)`
+    width: 1.2em;
     margin-right: 2px;
 `;
 
@@ -30,6 +43,13 @@ const HamburgerMenuButton = styled(Button)`
         background: none;
     }
 `;
+
+const DropDownArrow = styled(ArrowDropDown)`
+    width: 1.5em;
+    margin-right: 2px;
+`;
+
+
 
 const { Header, Content, Footer } = Layout;
 
@@ -56,7 +76,38 @@ function App(props) {
             .catch((error) => {
                 // User not logged in
             });
-    });
+    }, [isLoggedIn]);
+
+    const logout = val => {
+        axios.post('/users/logout',{}, {
+                withCredentials: true,
+            }
+        )
+            .then(res => {
+                setLoggedIn(false);
+                window.location.reload(false);
+            })
+            .catch(error => {
+                console.log('ERROR: Logout error')
+            });
+    };
+
+
+    const menu = (
+        <Menu>
+            <Menu.Item>
+                <a target="_blank" rel="noopener noreferrer" href="/">
+                    <ProfileIcon/> My profile
+                </a>
+            </Menu.Item>
+            <Menu.Item>
+                <a onClick={logout} rel="noopener noreferrer">
+                    <LogOutIcon/> Logout
+                </a>
+            </Menu.Item>
+        </Menu>
+    );
+
 
     const showDrawer = () => {
         setIsVisible(true);
@@ -71,9 +122,22 @@ function App(props) {
 
         if(isLoggedIn) {
             return(
-                <div>
-                    <button style={{"color": "black"}}>{username}</button>
-                </div>
+                <Row>
+                    <Col span={6}>
+                        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+                            <Menu.Item key="1">Home</Menu.Item>
+                            <Menu.Item key="2">Forms</Menu.Item>
+                            <Menu.Item key="3">About</Menu.Item>
+                        </Menu>
+                    </Col>
+                    <Col span={18} style={{'color': 'white', 'text-align': 'right'}}>
+                        <Dropdown overlay={menu}>
+                            <a className="ant-dropdown-link" style={{'color': '#fff'}} onClick={e => e.preventDefault()}>
+                                {username} <DropDownArrow/>
+                            </a>
+                        </Dropdown>
+                    </Col>
+                </Row>
             )
         }
 

@@ -192,6 +192,13 @@ const destroyUserComments = (req, res, next) => {
     return res.status(200).json({error: "OK"});
 };
 
+const logout = async ({params}, res, next) => {
+    res.cookie('jwt', {maxAge: 0});
+    res.clearCookie('jwt');
+
+    res.status(202).json({'message': 'logged out'});
+};
+
 module.exports = {
     getUsers,
     getUser,
@@ -201,5 +208,6 @@ module.exports = {
     destroyUser,
     destroyUserComments,
     loginUser,
-    showMe
+    showMe,
+    logout
 };
